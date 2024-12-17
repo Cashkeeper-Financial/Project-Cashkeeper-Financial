@@ -1,0 +1,16 @@
+{
+  "name": "ck",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "@netlify/functions": "^1.6.0",
+    "axios": "^1.7.8",
+    "dotenv": "^16.4.5",
+    "netlify-lambda": "^2.0.16"
+  },
+  "scripts": {
+    "start": "./node_modules/.bin/netlify-lambda serve server",
+    "build": "./node_modules/.bin/netlify-lambda build server"
+  }
+}
