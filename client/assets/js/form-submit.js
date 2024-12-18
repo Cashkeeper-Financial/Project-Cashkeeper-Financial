@@ -7,7 +7,7 @@ document.querySelector('.offer-form').addEventListener('submit', async function 
     const form = document.querySelector('.offer-form');
 
     try {
-        const res = await fetch('https://cashkeeperfinancial.netlify.app/.netlify/functions/env', {
+        const res = await fetch('https://cash-keeper.netlify.app/.netlify/functions/env', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
