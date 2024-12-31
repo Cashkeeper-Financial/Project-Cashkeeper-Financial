@@ -12,33 +12,21 @@ document.querySelector('.offer-form').addEventListener('submit', async function 
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: {},
+            body: JSON.stringify({ 
+                "offer_code": data?.access_code,
+                "first_name": data?.first_name,
+                "last_name": data?.last_name,
+                "email": data?.email,
+                "phone_number": data?.phone,
+                "loan_amount": data?.debt_amount,
+            })
         });
     
       
 
         if (res.ok) {
-            const responseData = await res.json(); 
-            const response = await fetch('https://7fwwglseys3xlqk6hogiazspv40gzoug.lambda-url.us-east-1.on.aws/api/create-lead-basic-info', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${responseData?.token}` // Replace `yourToken` with the actual token value
-                },
-                body: JSON.stringify({ // Convert the body to a JSON string
-                    "offer_code": data?.access_code,
-                    "first_name": data?.first_name,
-                    "last_name": data?.last_name,
-                    "email": data?.email,
-                    "phone_number": data?.phone,
-                    "loan_amount": data?.debt_amount,
-                }),
-            });
-            if(response?.ok){
                 form.style.display = 'none';
                 successMessage.style.display = 'block';
-
-            }
         } else {
             const error = await response.json();
             alert('Failed to submit the form.'); 
