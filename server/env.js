@@ -12,15 +12,15 @@ function validateFields(body) {
 
 exports.handler = async (event, context) => {
     try {
-        const apiKey = process.env.API_KEY; 
+        const apiKey = process.env.API_KEY;
         const YTEL_PASS = process.env.YTEL_PASS;
         const apiUrl = 'https://7fwwglseys3xlqk6hogiazspv40gzoug.lambda-url.us-east-1.on.aws/api/generate-token'; // Replace with your API endpoint
         const body = JSON.parse(event.body);
-        let res ={message:'Success!'};
+        let res = { message: 'Success!' };
         let statusCode = 200;
 
         const { offer_code, first_name, last_name, email, phone_number, loan_amount } = body;
-        
+
         const errors = validateFields(body);
         if (errors.length > 0) {
             console.error("Validation errors:", errors);
@@ -29,7 +29,7 @@ exports.handler = async (event, context) => {
         } else {
             const response = await axios.post(
                 apiUrl,
-                {}, 
+                {},
                 {
                     headers: {
                         'x-api-key': apiKey,
@@ -56,12 +56,10 @@ exports.handler = async (event, context) => {
                     }
                 );
                 if (responseAddLead?.status == 200) {
-                  
-                    if(last10Digits?.length == 10){
-                        const config = {
-                            method: "get",
-                            maxBodyLength: Infinity,
-                            url:`https://cashkeeper.ytel.com/x5/api/non_agent.php?function=add_lead
+                    const config = {
+                        method: "get",
+                        maxBodyLength: Infinity,
+                        url: `https://cashkeeper.ytel.com/x5/api/non_agent.php?function=add_lead
                                   &user=Ytel2617220
                                   &pass=${YTEL_PASS}
                                   &source=postman
@@ -103,21 +101,21 @@ exports.handler = async (event, context) => {
                                   &email=
                                   &comments=
                                   &multi_alt_phones=`,
-                            headers: {},
-                          };
-                          console.log(config)
-                          await axios(config)
-                            .then(async function (responseYtel) {
-                                console.log("initiateCallYtel", responseYtel?.data);
-                            })
-                            .catch(async function (error) {
-                                console.log("ErrorCallYtel", error);
-                            });
-                    }
+                        headers: {},
+                    };
+                    console.log(config)
+                    await axios(config)
+                        .then(async function (responseYtel) {
+                            console.log("initiateCallYtel", responseYtel?.data);
+                        })
+                        .catch(async function (error) {
+                            console.log("ErrorCallYtel", error);
+                        });
+
 
                 } else {
                     statusCode = 500;
-                    res = {message: "internal server error - add lead"}
+                    res = { message: "internal server error - add lead" }
                 }
 
             }
